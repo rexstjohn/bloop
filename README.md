@@ -1,4 +1,4 @@
-Rexy
+Bloop
 ===========
 
 These are a suite of command line tools for Intel Edison using Node.js using commander.js. My goal is to make it instantly possible to configure everything about your Edison using simple command-line tools which you can download via the NPM package manager. At the moment I am writing this on OSX, happy to have help in expanding support to Windows and other OS's. 
