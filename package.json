@@ -1,19 +1,19 @@
 {
-    "name": "rexy",
+    "name": "bloop",
     "version": "0.0.1",
-    "description": "A set of command-line tools for working with Intel Edison",
+    "description": "A set of command-line tools for working with Intel Edison on the PC side",
     "author": "Rex St John",
     "engines": {
       "node": ">=0.10"
     },
     "license": "MIT",
-    "repository": { "type": "git", "url": "https://github.com/rexstjohn/rexy.js.git" }, 
+    "repository": { "type": "git", "url": "https://github.com/rexstjohn/bloop.js.git" }, 
     "devDependencies": { "should": ">= 0.0.1" },
     "scripts": { "test": "make test" },
     "dependencies": {
         "commander":"2.5.x"
     },
     "bin": {
-      "rexy": "rexy.js"
+      "bloop": "bloop.js"
     }
 }
