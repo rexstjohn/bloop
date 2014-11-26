@@ -25,14 +25,13 @@ program
   .command('connect')
   .description('Easy command to instantly give you the connection command to talk to Edison.')
   .action(function(options){
-  		edisonCLI.connect(function handleConnect(err, result){
-  			if ( err ) {
-			    console.log(err);
-			  } else {
-				console.log(result);
-			  }
-		});
-  	}
+	edisonCLI.connect(function handleConnect(err, result){
+	  if ( err ) {
+	    console.log(err);
+	  } else {
+		console.log(result);
+	  }
+	});
   });
 
 /**

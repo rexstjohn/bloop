@@ -16,11 +16,13 @@ EdisonCLI.prototype = {
 
 		// Returns a command string like "screen /dev/usbserial-XXXX 115200 -L"
 		// I hate having to type that out every time, this makes it automatic.
-		this.getUSBSerialDevices(function(result){
-			var commandStr = me.getUSBSerialCommand(result);
-			next(null, commandStr);
-		}, function(e){
-			next( e );
+		this.getUSBSerialDevices(function handleUSB(err, result){
+			if( err ){
+				next( err );
+			} else {
+				var commandStr = me.getUSBSerialCommand(result);
+				next(null, commandStr);
+			}
 		});
 	},
 
@@ -32,7 +34,7 @@ EdisonCLI.prototype = {
 	    child = exec('ls /dev/cu.usbserial-*',
 		  function (error, stdout, stderr) { 
 		    if (error !== null || !stdout.length) {
-			  next( new Error("Error: No Edisons were found!") );
+			  next( new Error("No Edisons were found!") );
 		    } else {
 		   	  var cleaned = stdout.replace(/\n$/, '')
 		      next(null, cleaned);
@@ -60,7 +62,7 @@ EdisonCLI.prototype = {
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-			  next( new Error("Error: No screens were cleaned!") );
+			  next( new Error("No screens were cleaned!") );
 		    } else {
 		      next(null, stdout);
 		    }
@@ -75,7 +77,7 @@ EdisonCLI.prototype = {
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-			  next( new Error("Error: No screens were cleaned!") );
+			  next( new Error("No screens were cleaned!") );
 		    } else {
 		      next(null, stdout);
 		    }
@@ -90,7 +92,7 @@ EdisonCLI.prototype = {
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-			  next( new Error("Error: No screens were cleaned!") );
+			  next( new Error("No screens were cleaned!") );
 		    } else {
 		      next(null, stdout);
 		    }
@@ -105,7 +107,7 @@ EdisonCLI.prototype = {
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-			  next( new Error("Error: No screens were found!") );
+			  next( new Error("No screens were found!") );
 		    } else {
 		      next(null, stdout);
 		    }
@@ -120,7 +122,7 @@ EdisonCLI.prototype = {
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-			  next( new Error("Error: No screens were found!") );
+			  next( new Error("No screens were found!") );
 		    } else {
 		      next(null, stdout);
 		    }
