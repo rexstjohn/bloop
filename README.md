@@ -1,6 +1,4 @@
 # Bloop
-===========
-
 Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partner library which you can use on the Edison board itself. Bloop is specifically meant to help automate basic tasks revolving around connecting to Edison, getting a terminal, copying files to it and SSH-ing into it.
 
 *At this time, only Mac (Yosemite and similar) are supported*
@@ -11,15 +9,15 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 `$ bloop list`
 
-List all Intel Edison devices currently connected to your PC via USB Serial.
+*List all Intel Edison devices currently connected to your PC via USB Serial.*
 
 `$ bloop connect`
 
-Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial. 
+*Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial.*
 
 `$ bloop clean`
 
-Wipes out all existing screen sessions and ensure Edison is ready to connect.
+*Wipes out all existing screen sessions and ensure Edison is ready to connect. Screen has a nasty tendency to leave detatched sessions behind which result in annoying and mysterious errors about "Can't find a PTY."*
 
 ## Installation:
 
