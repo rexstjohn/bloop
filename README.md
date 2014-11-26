@@ -9,9 +9,9 @@ $ bloop list
 
 List all Intel Edison devices currently connected to your PC via USB Serial.
 
-$ bloop connect (-c, --clean)
+$ bloop connect 
 
-Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial. Add "-c or --clean" to automatically clean all attached and detached screen sessions. 
+Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial. 
 
 $ bloop clean
 

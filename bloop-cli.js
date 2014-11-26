@@ -11,16 +11,16 @@ EdisonCLI.prototype = {
 	/**
 	* Just tell me how to get a serial connection to my damn Edison!
 	*/
-    connect: function(callback, errorcbk){
+    connect: function(next){
 		var me = this;
 
 		// Returns a command string like "screen /dev/usbserial-XXXX 115200 -L"
 		// I hate having to type that out every time, this makes it automatic.
 		this.getUSBSerialDevices(function(result){
 			var commandStr = me.getUSBSerialCommand(result);
-			callback(commandStr);
-		}, function(error){
-			errorcbk(error);
+			next(null, commandStr);
+		}, function(e){
+			next( e );
 		});
 	},
 
@@ -28,14 +28,14 @@ EdisonCLI.prototype = {
 	* Fetches the list of USBSerial devices attached to this computer. This is used to specificy
 	* an Edison board to connect to.
 	*/
-	getUSBSerialDevices: function(callback, errorcbk) { 
+	getUSBSerialDevices: function(next) { 
 	    child = exec('ls /dev/cu.usbserial-*',
 		  function (error, stdout, stderr) { 
 		    if (error !== null || !stdout.length) {
-		      errorcbk(error + stdout);
+			  next( new Error("Error: No Edisons were found!") );
 		    } else {
 		   	  var cleaned = stdout.replace(/\n$/, '')
-		      callback(cleaned);
+		      next(null, cleaned);
 		    }
 		});
 	},
@@ -55,14 +55,14 @@ EdisonCLI.prototype = {
 	* terminal window open or detached screen process and it must be killed or
 	* weird errors about PTY not found will occur. 
 	*/
-	cleanScreens: function(callback,errorcbk){
+	cleanScreens: function(next){
 		var commandStr = 'screen -ls | cut -d. -f1 | awk \'{print $1}\' | xargs kill';
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-		      errorcbk(error + stdout);
+			  next( new Error("Error: No screens were cleaned!") );
 		    } else {
-		      callback(stdout);
+		      next(null, stdout);
 		    }
 		});
 	},
@@ -70,14 +70,14 @@ EdisonCLI.prototype = {
 	/**
 	* Destroy all attached screen sessions.
 	*/
-	cleanAttachedScreens: function(callback,errorcbk){
+	cleanAttachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Attached | cut -d. -f1 | awk \'{print $1}\' | xargs kill';
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-		      errorcbk(error + stdout);
+			  next( new Error("Error: No screens were cleaned!") );
 		    } else {
-		      callback(stdout);
+		      next(null, stdout);
 		    }
 		});
 	},
@@ -85,14 +85,14 @@ EdisonCLI.prototype = {
 	/**
 	* Destroy all detached screen sessions.
 	*/
-	cleanDetachedScreens: function(callback,errorcbk){
+	cleanDetachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Detached | cut -d. -f1 | awk \'{print $1}\' | xargs kill';
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-		      errorcbk(error + stdout);
+			  next( new Error("Error: No screens were cleaned!") );
 		    } else {
-		      callback(stdout);
+		      next(null, stdout);
 		    }
 		});
 	},
@@ -100,14 +100,14 @@ EdisonCLI.prototype = {
 	/**
 	* Returns a list of detached screen sessions.
 	*/
-	getDetachedScreens: function(success, errorcbk){
+	getDetachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Detached';
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-		      errorcbk(error + stdout);
+			  next( new Error("Error: No screens were found!") );
 		    } else {
-		      success(stdout);
+		      next(null, stdout);
 		    }
 		});
 	},
@@ -115,14 +115,14 @@ EdisonCLI.prototype = {
 	/**
 	* Returns a list of attached screen sessions.
 	*/
-	getAttachedScreens: function(success, errorcbk){
+	getAttachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Attached';
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
-		      errorcbk(error + stdout);
+			  next( new Error("Error: No screens were found!") );
 		    } else {
-		      success(stdout);
+		      next(null, stdout);
 		    }
 		});
 	}

@@ -20,30 +20,17 @@ program
 
 /**
 * Connect command, fast way to get a terminal using Edison.
-* Offer user's the ability to clean out background screen sessions.
 */ 
 program
   .command('connect')
-  .option("-c, --clean", "Kill all existing screen sessions.")
   .description('Easy command to instantly give you the connection command to talk to Edison.')
   .action(function(options){
-  	if(options.clean){
-		console.log("Clearing all screen sessions.");
-  		edisonCLI.cleanScreens(function(success){
-			console.log("Cleaned screens!");
-			edisonCLI.connect(function(result){
+  		edisonCLI.connect(function handleConnect(err, result){
+  			if ( err ) {
+			    console.log(err);
+			  } else {
 				console.log(result);
-			}, function(error){
-				console.log(error);
-			});
-  		}, function(error){
-  			console.log(error)
-  		});
-  	} else {
-  		edisonCLI.connect(function(result){
-				console.log(result);
-			}, function(error){
-				console.log(error);
+			  }
 		});
   	}
   });
@@ -55,10 +42,12 @@ program
   .command('list')
   .description('Easy way to view attached Edison devices.')
   .action(function(options){
-  		edisonCLI.getUSBSerialDevices(function(result){
-				console.log(result);
-			}, function(error){
-				console.log(error);
+  		edisonCLI.getUSBSerialDevices(function handleDevices(err, result){
+		  if ( err ) {
+		    console.log(err);
+		  } else {
+			console.log(result);
+		  }
 		});
   });
 
@@ -74,22 +63,28 @@ program
   .option("-d, --detached", "Kill all detached screen sessions")
   .action(function(options){
   		if(options.attached){
-			edisonCLI.cleanAttachedScreens(function(result){
-				console.log("Cleaned attached screens!");
-			}, function(error){
-				console.log(error);
+			edisonCLI.cleanAttachedScreens(function handleClean(err, result){
+			  if ( err ) {
+			      console.log(err);
+			  } else {
+			      console.log('Cleaned attached screens!');
+			  }
 			});
   		} else if(options.detached){
-			edisonCLI.cleanDetachedScreens(function(result){
-				console.log("Cleaned detached screens!");
-			}, function(error){
-				console.log(error);
+  			edisonCLI.cleanDetachedScreens(function handleClean(err, result){
+			  if ( err ) {
+			      console.log(err);
+			  } else {
+			      console.log('Cleaned detached screens!');
+			  }
 			});
   		} else {
-			edisonCLI.cleanScreens(function(result){
-				console.log("Cleaned screens!");
-			}, function(error){
-				console.log(error);
+  			edisonCLI.cleanScreens(function handleClean(err, result){
+			  if ( err ) {
+			      console.log(err);
+			  } else {
+			      console.log('Cleaned screens!');
+			  }
 			});
   		}
   });
