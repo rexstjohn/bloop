@@ -1,28 +1,31 @@
 Bloop
 ===========
 
-These are a suite of command line tools for Intel Edison using Node.js using commander.js. My goal is to make it instantly possible to configure everything about your Edison using simple command-line tools which you can download via the NPM package manager. At the moment I am writing this on OSX, happy to have help in expanding support to Windows and other OS's. 
+Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partner library which you can use on the Edison board itself. Bloop is specifically meant to help automate basic tasks revolving around connecting to Edison, getting a terminal, copying files to it and SSH-ing into it.
 
 Commands:
 
-$ edison -a or edison --ahoy 
+$ bloop deploy (-n, --node)
 
-This command will automatically find your connected Edison and use screen /dev/cu.usbserial-XXXXX 115200 -L. I hate typing that out everyime I want to access my Edison.
+Uses SCP to copy a node project to Edison's node_app_slot directory.
 
-$ edison wifi
+$ bloop select [edison]
 
-Automagically share your current wi-fi settings with Edison.
+Select an Edison device to use with connect, copy, ssh commands. 
 
-$ edison goble
+$ bloop list (-w, --wifi, -u, --usb)
 
-Automatically configure Intel Edison for BLE development. 
+List all Intel Edison devices currently connected to your PC via USB Serial or available for connection on the local Wi-Fi network. Assigns a simple unique handle to each Edison.
+
+$ bloop connect [edison] (-s, --ssh, -u, --usb)
+
+Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial. Connects via ssh to Wi-Fi or via USB (or COM port). 
+
+$ bloop clean
+
+Wipes out all existing screen sessions and ensure Edison is ready to connect.
 
 Installation:
 
-$ npm install -g edison
+$ npm install -g bloop
 
-Thanks, References:
-
-This guide was most helpful: http://cruft.io/posts/node-command-line-utilities/. My utility uses Commander.js to do the footwork. So was this: http://bocoup.com/weblog/building-command-line-tools-in-node-with-liftoff/.
-
-http://tjholowaychuk.tumblr.com/post/9103188408/commander-js-nodejs-command-line-interfaces-made
