@@ -13,6 +13,7 @@
     "dependencies": {
         "commander":"2.5.x"
     },
+    "os" : [ "darwin", "linux", "!win32" ],
     "bin": {
       "bloop": "bloop.js"
     }

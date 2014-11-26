@@ -2,9 +2,7 @@
 * Edison CLI to provide time-saving Bash calls via NPM
 */
 var util = require('util'),
-	os = require('os'),
     exec = require('child_process').exec,
-    spawn = require('child_process').spawn,
     child;
 
 var EdisonCLI = function () {};
@@ -14,14 +12,11 @@ EdisonCLI.prototype = {
 	* Just tell me how to get a serial connection to my damn Edison!
 	*/
     connect: function(callback, errorcbk){
-		// OS (http://nodejs.org/api/os.html#os_os_platform)
-		// linux, darwin, win32, sunos 
-		var currentOS = os.platform;
 		var me = this;
 
 		// Returns a command string like "screen /dev/usbserial-XXXX 115200 -L"
 		// I hate having to type that out every time, this makes it automatic.
-		this.getUSBSerialDevice(function(result){
+		this.getUSBSerialDevices(function(result){
 			var commandStr = me.getUSBSerialCommand(result);
 			callback(commandStr);
 		}, function(error){
@@ -33,7 +28,7 @@ EdisonCLI.prototype = {
 	* Fetches the list of USBSerial devices attached to this computer. This is used to specificy
 	* an Edison board to connect to.
 	*/
-	getUSBSerialDevice: function(callback, errorcbk) { 
+	getUSBSerialDevices: function(callback, errorcbk) { 
 	    child = exec('ls /dev/cu.usbserial-*',
 		  function (error, stdout, stderr) { 
 		    if (error !== null || !stdout.length) {

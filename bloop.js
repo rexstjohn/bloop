@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var edisonCLI = require('./bloop-cli.js');
+/**
+* This is Bloop, a CLI tool for helping Mac / OSX developers work with Intel Edison more easily.
+* Support for Linux and Windows pending on my future enthusiasm (and yours) to keep working on this.
+*/
+
+/**
+* Define version, help info here
+*/
+var program = require('commander'),
+	edisonCLI = require('./bloop-cli.js');
 
 /**
 * Define version, help info here
@@ -38,6 +46,20 @@ program
 				console.log(error);
 		});
   	}
+  });
+
+/**
+* Print a list of attached Edison devices.
+*/ 
+program
+  .command('list')
+  .description('Easy way to view attached Edison devices.')
+  .action(function(options){
+  		edisonCLI.getUSBSerialDevices(function(result){
+				console.log(result);
+			}, function(error){
+				console.log(error);
+		});
   });
 
 /**
