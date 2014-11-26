@@ -22,7 +22,7 @@ program
 * Connect command, fast way to get a terminal using Edison.
 */ 
 program
-  .command('connect')
+  .command('c')
   .description('Easy command to instantly give you the connection command to talk to Edison.')
   .action(function(options){
 	edisonCLI.connect(function handleConnect(err, result){

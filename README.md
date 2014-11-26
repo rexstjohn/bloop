@@ -9,7 +9,7 @@ $ bloop list
 
 List all Intel Edison devices currently connected to your PC via USB Serial.
 
-$ bloop connect 
+$ bloop c 
 
 Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial. 
 
