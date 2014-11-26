@@ -62,6 +62,7 @@ EdisonCLI.prototype = {
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
+		    	console.log(error);
 			  next( new Error("No screens were cleaned!") );
 		    } else {
 		      next(null, stdout);
