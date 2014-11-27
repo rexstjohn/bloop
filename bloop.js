@@ -36,7 +36,7 @@ program
 				   console.log(err);
 				} else {
 					console.log(result);
-					console.log("Copied to clipboard. Hit Command + v to paste the command.")
+					console.log("Copied to clipboard. Hit Command + v to paste the command.");
 				}
 	  		});
 	  	}else{

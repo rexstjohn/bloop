@@ -43,13 +43,13 @@ EdisonCLI.prototype = {
 	},
 
 	/**
-	* PBCopy an input
+	* PBCopy an input to the clipboard
 	*/ 
 	copyInput: function(input, next) { 
-		var command = 'pbcopy ' + input;
+		var command = 'echo \''+ input + '\'' + ' | pbcopy';
 	    child = exec(command,
 		  function (error, stdout, stderr) { 
-		    if (error !== null || !stdout.length) {
+		    if (error !== null) {
 			  next( new Error("PBCopy has failed!") );
 		    } else {
 		      next(null, input);
