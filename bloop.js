@@ -115,7 +115,8 @@ program
 			}
 
 		  	if(options.copy){
-		  		edisonCLI.copyInput("ssh " + result, function handleCopy(err, result){
+		  		var modifiedInput = "ssh root@" + result;
+		  		edisonCLI.copyInput(modifiedInput, function handleCopy(err, result){
 					if ( err ) {
 					   console.log(err);
 					} else {
