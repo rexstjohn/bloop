@@ -169,7 +169,7 @@ EdisonCLI.prototype = {
 			  if ( err ) {
 			    next(new Error("Something went very wrong."));
 			  } else {
-				next(null, result);
+				next(null, result + '.local');
 			  }
 		  	  dnssd.kill('SIGHUP');
 			});
@@ -192,7 +192,7 @@ EdisonCLI.prototype = {
 		    if (error !== null) {
 			  next( new Error("Failed to parse DNSSD output.") );
 		    } else {
-		      next(null, stdout);
+		      next(null, stdout.replace(/\n$/, ''));
 		    }
 		});
 	}
