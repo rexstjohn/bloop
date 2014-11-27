@@ -152,25 +152,49 @@ EdisonCLI.prototype = {
 		// dns-sd -B _services._dns-sd._udp
 		// dns-sd -B _xdk-app-daemon._tcp
 		// dns-sd -L "rexison" _xdk-app-daemon._tcp
-		// dns-sd -B _xdk-app-daemon._tcp | cut   awk ' {print $7}'
+		// dns-sd -B _xdk-app-daemon._tcp | awk 'FNR == 5 {print $7}'
 		// ssh rexison.local
+		var me = this;
 		var spawn = require('child_process').spawn,
 	    dnssd = spawn('dns-sd', ['-B', '_xdk-app-daemon._tcp']);
 
+	    // Killing of the process.
 		dnssd.on('close', function (code, signal) {
-		  console.log('child process terminated due to receipt of signal '+signal);
+		  // close.
 		});
 
+		// Handle data output.
 		dnssd.stdout.on('data', function (data) {
-		  console.log('stdout: ' + data);
+		  me.parseDNSSDOutput(data, function handleDevices(err, result){
+			  if ( err ) {
+			    next(new Error("Something went very wrong."));
+			  } else {
+				next(null, result);
+			  }
+		  	  dnssd.kill('SIGHUP');
+			});
 		});
 
+		// Handle stderr.
 		dnssd.stderr.on('data', function (data) {
-		  console.log('stderr: ' + data);
+	      next(new Error("Something went very wrong."));
+		  dnssd.send('SIGHUP');
 		});
+	},
 
-		// send SIGHUP to process
-		//grep.kill('SIGHUP');
+	/**
+	* Parses dns-sd output into a useable result.
+	*/
+	parseDNSSDOutput: function(input, next){
+		var commandStr = 'echo \'' + input + '\' | awk \'FNR == 5 {print $7}\'';
+		child = exec(commandStr,
+		  function (error, stdout, stderr) {     
+		    if (error !== null) {
+			  next( new Error("Failed to parse DNSSD output.") );
+		    } else {
+		      next(null, stdout);
+		    }
+		});
 	}
 };
 
