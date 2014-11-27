@@ -2,6 +2,7 @@
 * Edison CLI to provide time-saving Bash calls via NPM
 */
 var util = require('util'),
+	mdns = require('mdns-js'),
     exec = require('child_process').exec,
     child;
 
@@ -149,10 +150,17 @@ EdisonCLI.prototype = {
 	*
 	*/
 	scanLocalNetwork: function(next){
-		/*nmap.nmap('discover', function(err, report){
+		require('libnmap').nmap('discover', function(err, report){
 		  if (err) throw err
 		  console.log(report)
-		});*/
+		});//ifconfig | grep broadcast | arp -a | grep :
+		//nc 192.168.2.15 1-9999
+		// http://apple.stackexchange.com/questions/65673/can-i-list-all-the-bonjour-enabled-services-that-are-running
+		//dns-sd -B _services._dns-sd._udp
+		//dns-sd -B _xdk-app-daemon._tcp
+		//dns-sd -L "rexison" _xdk-app-daemon._tcp
+		// dns-sd -B _xdk-app-daemon._tcp | cut   awk ' {print $7}'
+		//ssh rexison.local
 	}
 };
 

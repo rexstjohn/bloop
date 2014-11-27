@@ -12,7 +12,7 @@
     "scripts": { "test": "make test" },
     "dependencies": {
         "commander":"2.5.x",
-        "libnmap":"*"
+        "mdns-js":"*"
     },
     "os" : [ "darwin", "linux", "!win32" ],
     "bin": {

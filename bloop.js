@@ -101,6 +101,22 @@ program
   });
 
 /**
+* Scan the local network for Intel Edison devices.
+*/
+program
+  .command('scan')
+  .description('Scan the local network for Intel Edisons.')
+  .action(function(){
+		edisonCLI.scanLocalNetwork(function handleScan(err, result){
+		  if ( err ) {
+		      console.log(err);
+		  } else {
+		      console.log(result);
+		  }
+		});
+  });
+
+/**
 * Parse the args (e.g. --a etc)
 */
 program.parse(process.argv);
