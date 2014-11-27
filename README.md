@@ -23,7 +23,10 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 *Wipes out all existing screen sessions and ensure Edison is ready to connect. Screen has a nasty tendency to leave detatched sessions behind which result in annoying and mysterious errors about "Can't find a PTY." Just run bloop clean and you can kill all these detached sessions.*
 
+`$ bloop scan [-c (copy results to clipboard)]`
 
+*Scans locally available Bonjour services for the Intel XDK Daemon associated with an Intel Edison and reports on what it finds. If an Edison is found, you can ssh into the
+Edison's name (edison_name.local) using the ssh command. Adding the -c option will automatically add this command to your clipboard.*
 
 ## Installation:
 
