@@ -13,15 +13,17 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 *ex.: /dev/cu.usbserial-A402IDV3*
 
-`$ bloop c`
+`$ bloop c [-c (copy results to clipboard)]`
 
 *Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial.*
 
 *ex.: screen /dev/cu.usbserial-A402IDV3 115200 -L*
 
-`$ bloop clean`
+`$ bloop clean [-a (all attached screen processes), -d (all detached screen processes)]`
 
 *Wipes out all existing screen sessions and ensure Edison is ready to connect. Screen has a nasty tendency to leave detatched sessions behind which result in annoying and mysterious errors about "Can't find a PTY." Just run bloop clean and you can kill all these detached sessions.*
+
+
 
 ## Installation:
 
