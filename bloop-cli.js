@@ -150,10 +150,10 @@ EdisonCLI.prototype = {
 	*
 	*/
 	scanLocalNetwork: function(next){
-		require('libnmap').nmap('discover', function(err, report){
-		  if (err) throw err
-		  console.log(report)
-		});//ifconfig | grep broadcast | arp -a | grep :
+		//require('libnmap').nmap('discover', function(err, report){
+		  //if (err) throw err
+		  //console.log(report)
+		//});//ifconfig | grep broadcast | arp -a | grep :
 		//nc 192.168.2.15 1-9999
 		// http://apple.stackexchange.com/questions/65673/can-i-list-all-the-bonjour-enabled-services-that-are-running
 		//dns-sd -B _services._dns-sd._udp
@@ -161,6 +161,15 @@ EdisonCLI.prototype = {
 		//dns-sd -L "rexison" _xdk-app-daemon._tcp
 		// dns-sd -B _xdk-app-daemon._tcp | cut   awk ' {print $7}'
 		//ssh rexison.local
+		var browser = mdns.createBrowser();
+
+		browser.on('ready', function () {
+		    browser.discover(); 
+		});
+
+		browser.on('update', function (data) {
+		    console.log('data:', data);
+		});
 	}
 };
 
