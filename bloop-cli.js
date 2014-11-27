@@ -143,6 +143,16 @@ EdisonCLI.prototype = {
 		      next(null, stdout);
 		    }
 		});
+	},
+
+	/**
+	*
+	*/
+	scanLocalNetwork: function(next){
+		/*nmap.nmap('discover', function(err, report){
+		  if (err) throw err
+		  console.log(report)
+		});*/
 	}
 };
 

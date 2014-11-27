@@ -108,8 +108,6 @@ program.parse(process.argv);
 /**
 * Show help by default.
 */
-if(!program.args.length){
-	program.help();
-} 
+if(!program.args.length) program.help();
 
 
