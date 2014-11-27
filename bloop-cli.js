@@ -178,7 +178,7 @@ EdisonCLI.prototype = {
 		// Handle stderr.
 		dnssd.stderr.on('data', function (data) {
 	      next(new Error("Something went very wrong."));
-		  dnssd.send('SIGHUP');
+		  dnssd.kill('SIGHUP');
 		});
 	},
 

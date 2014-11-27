@@ -106,13 +106,26 @@ program
 program
   .command('scan')
   .description('Scan the local network for Intel Edisons.')
-  .action(function(){
+  .option("-c, --copy", "SSH into the Edison we found.")
+  .action(function(options){
 		edisonCLI.scanLocalNetwork(function handleScan(err, result){
-		  if ( err ) {
+			if ( err ) {
 		      console.log(err);
-		  } else {
-		      console.log("Edison found: " + result);
-		  }
+		      return;
+			}
+
+		  	if(options.copy){
+		  		edisonCLI.copyInput("ssh " + result, function handleCopy(err, result){
+					if ( err ) {
+					   console.log(err);
+					} else {
+						console.log("Edison found, use ssh to connect to it: " + result);
+						console.log("Copied to clipboard. Hit Command + v to paste the command.");
+					}
+		  		});
+		  	}else{
+				console.log("Edison found, use ssh to connect to it: " + result);
+		  	}
 		});
   });
 
