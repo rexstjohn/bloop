@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.0.2')
+    .version('0.0.3')
     .usage('[options] <keywords>');
 
 /**
@@ -126,6 +126,38 @@ program
 		  		});
 		  	}else{
 				console.log("Edison found, use ssh to connect to it: " + result);
+		  	}
+		});
+  });
+
+/**
+* Scan the local network for Intel Edison devices.
+*/
+program
+  .command('push')
+  .option("-c, --copy", "scp the current directory into the Edison we just found.")
+  .description('Push the local directory contents to Edison npm_app_slot directory via scp.')
+  .action(function(options){
+		edisonCLI.scanLocalNetwork(function handleScan(err, result){
+			if ( err ) {
+		      console.log(err);
+		      return;
+			}
+
+		  	if(options.copy){
+		  		var modifiedInput = "scp -r . root@" + result + ":~/node_app_slot/";
+		  		edisonCLI.copyInput(modifiedInput, function handleCopy(err, result){
+					if ( err ) {
+					   console.log(err);
+					} else {
+						console.log("Edison found: " + result);
+						console.log("Copied to clipboard. Hit Command + v to paste the command.");
+					}
+		  		});
+		  	}else{
+		  		var modifiedInput = "scp -r . root@" + result + ":~/node_app_slot/";
+				console.log("Edison found: " + result);
+				console.log("Deploy using this: " + modifiedInput);
 		  	}
 		});
   });

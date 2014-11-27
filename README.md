@@ -28,6 +28,10 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 *Scans locally available Bonjour services for the Intel XDK Daemon associated with an Intel Edison and reports on what it finds. If an Edison is found, you can ssh into the
 Edison's name (edison_name.local) using the ssh command. Adding the -c option will automatically add this command to your clipboard.*
 
+`$ bloop push [-c (copy results to clipboard)]`
+
+*Finds a local Edison and generates an scp command to deploy your current node project into Edison's node_app_slot directory. This a convenience method to make development faster. Adding the -c option will automatically add this command to your clipboard.*
+
 ## Installation:
 
 `$ npm install -g bloop`
