@@ -43,6 +43,21 @@ EdisonCLI.prototype = {
 	},
 
 	/**
+	* PBCopy an input
+	*/ 
+	copyInput: function(input, next) { 
+		var command = 'pbcopy ' + input;
+	    child = exec(command,
+		  function (error, stdout, stderr) { 
+		    if (error !== null || !stdout.length) {
+			  next( new Error("PBCopy has failed!") );
+		    } else {
+		      next(null, input);
+		    }
+		});
+	},
+
+	/**
 	* All this does is produce the Bash command a user needs to connect to Edison. 
 	* It's a simple time saver. 
 	*/

@@ -23,13 +23,25 @@ program
 */ 
 program
   .command('c')
+  .option("-c, --copy", "Copy the input to your clipboard automatically")
   .description('Easy command to instantly give you the connection command to talk to Edison.')
   .action(function(options){
 	edisonCLI.connect(function handleConnect(err, result){
 	  if ( err ) {
 	    console.log(err);
 	  } else {
-		console.log(result);
+	  	if(options.copy){
+	  		edisonCLI.copyInput(result, function handleCopy(err, result){
+				if ( err ) {
+				   console.log(err);
+				} else {
+					console.log(result);
+					console.log("Copied to clipboard. Hit Command + v to paste the command.")
+				}
+	  		});
+	  	}else{
+			console.log("Generated command: " + result);
+	  	}
 	  }
 	});
   });
