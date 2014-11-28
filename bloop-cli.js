@@ -9,13 +9,28 @@ var EdisonCLI = function () {};
 
 EdisonCLI.prototype = {
 	/**
-	* Just tell me how to get a serial connection to my damn Edison!
+	* Automatically executes a connection with an attached Edison via USBSerial.
+	* screen /dev/cu.usbserial-XXXXX 115200 -L
 	*/
     connect: function(next){
 		var me = this;
+		this.getUSBSerialDevices(function handleUSB(err, result){
+			if( err ){
+				next( err );
+			} else {
+				me.executeScreenOnSerialDevice(result,next );
+			}
+		});
+	},
 
-		// Returns a command string like "screen /dev/usbserial-XXXX 115200 -L"
-		// I hate having to type that out every time, this makes it automatic.
+	/**
+	* Just tell me how to get a serial connection to my damn Edison!
+	* Returns a connection string in the form of: 
+	* screen /dev/cu.usbserial-XXXXX 115200 -L
+	* Note: Does not execute this command!
+	*/
+	getConnectionString: function(next){
+		var me = this;
 		this.getUSBSerialDevices(function handleUSB(err, result){
 			if( err ){
 				next( err );
@@ -33,13 +48,27 @@ EdisonCLI.prototype = {
 	getUSBSerialDevices: function(next) { 
 	    child = exec('ls /dev/cu.usbserial-*',
 		  function (error, stdout, stderr) { 
+		  	stdout = stdout.replace(/\n$/, '');
 		    if (error !== null || !stdout.length) {
 			  next( new Error("No Edisons were found!") );
 		    } else {
-		   	  var cleaned = stdout.replace(/\n$/, '')
+		   	  var cleaned = stdout;
 		      next(null, cleaned);
 		    }
 		});
+	},
+
+	/**
+	* Executes a screen command on a provided serial device e.g.
+	* screen /dev/cu.usbserial-XXXXX 115200 -L
+	*/ 
+	executeScreenOnSerialDevice: function(serial_device, next){
+		var me = this;
+		console.log ("Initiating connection to: " + serial_device);
+		console.log ("Note: If you get \'resource is busy\' or \'Couldn't find a PTY\',\nrun \'bloop clean\' to terminate stuck screen sessions and try again.\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
+		var spawn = require('child_process').spawn,
+	    screencmd = spawn('screen', [serial_device,'115200','-L'], {stdio: 'inherit'});
+		next(null, "Hope you enjoyed playing with Edison.");
 	},
 
 	/**
