@@ -41,6 +41,12 @@ string you can use to access it. Add -c to copy the results to your clipboard.*
 
 *ex.: Attached Screens: 	657.ttys002.Rex-St-John--Intel	(Attached)*
 
+`$ bloop ssh`
+
+*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command.*
+
+*ex.: ssh root@youredison.local*
+
 `$ bloop push [-c (copy results to clipboard)]`
 
 *Finds a local Edison and generates an scp command to deploy your current node project into Edison's node_app_slot directory. This a convenience method to make development faster. Adding the -c option will automatically add this command to your clipboard.*
