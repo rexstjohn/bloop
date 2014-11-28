@@ -135,8 +135,9 @@ EdisonCLI.prototype = {
 	cleanDetachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Detached | cut -d. -f1 | awk \'{print $1}\' | xargs kill';
 		child = exec(commandStr,
-		  function (error, stdout, stderr) {     
-		    if (error !== null) {
+		  function (error, stdout, stderr) {    
+		  	stdout = stdout.replace(/\n$/, ''); 
+		    if (error !== null || !stdout.length) {
 			  next( new Error("No screens were cleaned!") );
 		    } else {
 		      next(null, stdout);
@@ -150,9 +151,10 @@ EdisonCLI.prototype = {
 	getDetachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Detached';
 		child = exec(commandStr,
-		  function (error, stdout, stderr) {     
-		    if (error !== null) {
-			  next( new Error("No screens were found!") );
+		  function (error, stdout, stderr) { 
+		  	stdout = stdout.replace(/\n$/, '');    
+		    if (error !== null || !stdout.length) {
+			  next( new Error("No detached screens were found!") );
 		    } else {
 		      next(null, stdout);
 		    }
@@ -165,9 +167,10 @@ EdisonCLI.prototype = {
 	getAttachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Attached';
 		child = exec(commandStr,
-		  function (error, stdout, stderr) {     
-		    if (error !== null) {
-			  next( new Error("No screens were found!") );
+		  function (error, stdout, stderr) {    
+		  	stdout = stdout.replace(/\n$/, ''); 
+		    if (error !== null || !stdout.length) {
+			  next( new Error("No attached screens were found!") );
 		    } else {
 		      next(null, stdout);
 		    }

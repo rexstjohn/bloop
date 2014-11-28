@@ -205,6 +205,31 @@ program
   });
 
 /**
+* List any existing screen sessions, attached or detatched.
+*/
+program
+  .command('screens')
+  .description('List any existing screen sessions, attached or detatched.')
+  .action(function(options){
+
+		edisonCLI.getAttachedScreens(function handleClean(err, result){
+		  if ( err ) {
+		      console.log(err);
+		  } else {
+		      console.log('Attached Screens: '  + result);
+		  }
+		});
+
+		edisonCLI.getDetachedScreens(function handleClean(err, result){
+		  if ( err ) {
+		      console.log(err);
+		  } else {
+		      console.log('Detached Screens: '  + result);
+		  }
+		});
+  });
+
+/**
 * Parse the args (e.g. --a etc)
 */
 program.parse(process.argv);
