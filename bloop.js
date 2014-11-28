@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.0.4')
+    .version('0.0.6')
     .usage('[options] <keywords>');
 
 /**
@@ -169,6 +169,30 @@ program
 		  	}else{
 				console.log("Edison found, use ssh to connect to it: " + result);
 		  	}
+		});
+  });
+
+/**
+* SSH into a local Edison on the network.
+*/
+program
+  .command('ssh')
+  .description('SSH into a local Intel Edison on your network.')
+  .action(function(options){
+		edisonCLI.scanLocalNetwork(function handleScan(err, result){
+			if ( err ) {
+		      console.log(err);
+		      return;
+			}
+
+		    console.log("Attempting to ssh into: " + result);
+	  		edisonCLI.ssh(result, function handleSSH(err, result){
+				if ( err ) {
+				   console.log(err);
+				   return;
+				} 
+				// success.
+	  		});
 		});
   });
 

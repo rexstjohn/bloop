@@ -242,6 +242,17 @@ EdisonCLI.prototype = {
 		      next(null, stdout.replace(/\n$/, ''));
 		    }
 		});
+	},
+
+	/**
+	* SSH into a target Edison.
+	*/
+	ssh: function(input, next){
+		var me = this;
+		var modifiedInput = "root@"+input;
+		      console.log(modifiedInput);
+		var spawn = require('child_process').spawn,
+	    ssh = spawn('ssh', [modifiedInput],{stdio: 'inherit'});
 	}
 };
 
