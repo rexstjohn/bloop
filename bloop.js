@@ -23,41 +23,48 @@ program
 */ 
 program
   .command('c')
-  .option("-c, --copy", "Copy the input to your clipboard automatically.")
-  .option("-l, --list", "Simply outputs the command string without executing it.")
   .description('Instantly initiate a terminal session with a connected Edison over Micro-USB.')
   .action(function(options){
-  		if(options.list){
-  			//Get the connection string only and output it to the terminal.
-			edisonCLI.getConnectionString(function handleConnect(err, result){
-			  if ( err ) {
-			    console.log(err);
-			  } else {
-			  	if(options.copy){
-			  		edisonCLI.copyInput(result, function handleCopy(err, result){
-						if ( err ) {
-						   console.log(err);
-						} else {
-							console.log(result);
-							console.log("Copied to clipboard. Hit Command + v to paste the command.");
-						}
-			  		});
-			  	}else{
-					console.log("Generated command: " + result);
-			  	}
-			  }
-			});
-	  	} else {
-  			//Initiate a connection to an attached Edison.
-			edisonCLI.connect(function handleConnect(err, result){
-			  if ( err ) {
-				console.log("Something went wrong. If you got a PTY error, try running bloop clean and then try again.\n Make sure BOTH Micro-USB are connected to your computer from Edison.");
-			    console.log(err);
-			  } else {
-			  	// Success.
-			  }
-			});
-	  	}
+		//Initiate a connection to an attached Edison.
+		edisonCLI.connect(function handleConnect(err, result){
+		  if ( err ) {
+			console.log("Something went wrong. If you got a PTY error, try running bloop clean and then try again.\n Make sure BOTH Micro-USB are connected to your computer from Edison.");
+		    console.log(err);
+		  } else {
+		  	// Success.
+		  }
+		});
+	});
+
+/**
+* Sniff simply lists any Intel Edison connected to your computer and outputs a connection
+* string you can use to access it.
+*
+* Example output: screen /dev/cu.usbserial-XXXX 115200 -L
+*/ 
+program
+	.command('sniff')
+	.option("-c, --copy", "Copy the input to your clipboard automatically.")
+	.description('Sniffs out active Edisons connected to your computer via Micro-USB and generates a connection command (but doesn\'t execute it).')
+	.action(function(options){
+		edisonCLI.getConnectionString(function handleConnect(err, result){
+		  if ( err ) {
+		    console.log(err);
+		  } else {
+		  	if(options.copy){
+		  		edisonCLI.copyInput(result, function handleCopy(err, result){
+					if ( err ) {
+					   console.log(err);
+					} else {
+						console.log(result);
+						console.log("Copied to clipboard. Hit Command + v to paste the command.");
+					}
+		  		});
+		  	}else{
+				console.log("Generated command: " + result);
+		  	}
+		  }
+		});
 	});
 
 /**
