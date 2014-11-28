@@ -65,7 +65,7 @@ EdisonCLI.prototype = {
 	executeScreenOnSerialDevice: function(serial_device, next){
 		var me = this;
 		console.log ("Initiating connection to: " + serial_device);
-		console.log ("Note: If you get \'resource is busy\' or \'Couldn't find a PTY\',\nrun \'bloop clean\' to terminate stuck screen sessions and try again.\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
+		console.log ("Note: If you get \'resource is busy\' or \'Couldn't find a PTY\',\nrun \'bloop clean\' to terminate stuck screen sessions and try again.\nMake sure BOTH Micro-USB are connected to your computer from Edison.\nYou can also run \'bloop c -f\' to force the connection.");
 		var spawn = require('child_process').spawn,
 	    screencmd = spawn('screen', [serial_device,'115200','-L'], {stdio: 'inherit'});
 		next(null, "Hope you enjoyed playing with Edison.");
@@ -102,15 +102,29 @@ EdisonCLI.prototype = {
 	* weird errors about PTY not found will occur. 
 	*/
 	cleanScreens: function(next){
-		var commandStr = 'screen -ls | cut -d. -f1 | awk \'{print $1}\' | xargs kill';
-		child = exec(commandStr,
-		  function (error, stdout, stderr) {     
-		    if (error !== null) {
-		    	console.log(error);
-			  next( new Error("No screens were cleaned!") );
-		    } else {
-		      next(null, stdout);
-		    }
+		var me = this;
+
+		// Try to clean detached screens.
+		this.getDetachedScreens(function handleGet(err, result){
+			if( err ){
+				// Do nothing, there are no screens to clean.
+				console.log("No detached screens, skipping.");
+			} else {
+				me.cleanDetachedScreens(null);
+				console.log("Cleaning detached screens.");
+			}
+		});
+
+		// Try to clean attached screens.
+		this.getAttachedScreens(function handleGet(err, result){
+			if( err ){
+				// Do nothing, there are no screens to clean.
+				console.log("No attached screens, skipping.");
+			} else {
+				me.cleanAttachedScreens(null);
+				console.log("Cleaning attached screens.");
+				next("success");
+			}
 		});
 	},
 
@@ -120,11 +134,12 @@ EdisonCLI.prototype = {
 	cleanAttachedScreens: function(next){
 		var commandStr = 'screen -ls | grep Attached | cut -d. -f1 | awk \'{print $1}\' | xargs kill';
 		child = exec(commandStr,
-		  function (error, stdout, stderr) {     
-		    if (error !== null) {
-			  next( new Error("No screens were cleaned!") );
+		  function (error, stdout, stderr) { 
+		  	stdout = stdout.replace(/\n$/, '');     
+		    if (error !== null || !stdout.length) {
+			  if(next) next( new Error("No attached screens were cleaned!") );
 		    } else {
-		      next(null, stdout);
+		       if(next) next(null, stdout);
 		    }
 		});
 	},
@@ -138,9 +153,9 @@ EdisonCLI.prototype = {
 		  function (error, stdout, stderr) {    
 		  	stdout = stdout.replace(/\n$/, ''); 
 		    if (error !== null || !stdout.length) {
-			  next( new Error("No screens were cleaned!") );
+			  if(next) next( new Error("No detached screens were cleaned!") );
 		    } else {
-		      next(null, stdout);
+		       if(next) next(null, stdout);
 		    }
 		});
 	},
