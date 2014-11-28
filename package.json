@@ -1,6 +1,6 @@
 {
     "name": "bloop",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "A set of command-line tools for working with Intel Edison on the PC side",
     "author": "Rex St John",
     "engines": {
@@ -13,7 +13,7 @@
     "dependencies": {
         "commander":"2.5.x"
     },
-    "os" : [ "darwin", "linux", "!win32" ],
+    "os" : [ "darwin", "!linux", "!win32" ],
     "bin": {
       "bloop": "bloop.js"
     }
