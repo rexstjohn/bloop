@@ -13,20 +13,33 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 *ex.: /dev/cu.usbserial-A402IDV3*
 
-`$ bloop c [-c (copy results to clipboard)]`
+`$ bloop c [-f, --force (force clean all existing screen sessions)]`
 
-*Automatically generates a connect string you can use to talk to Edisons connected to your PC via USB Serial.*
+*Automatically connects you via screen to an attached Edison device. Add the -f, --force option to automatically disconnect any detached or attached screen sessions.*
 
 *ex.: screen /dev/cu.usbserial-A402IDV3 115200 -L*
 
 `$ bloop clean [-a (all attached screen processes), -d (all detached screen processes)]`
 
-*Wipes out all existing screen sessions and ensure Edison is ready to connect. Screen has a nasty tendency to leave detatched sessions behind which result in annoying and mysterious errors about "Can't find a PTY." Just run bloop clean and you can kill all these detached sessions.*
+*Wipes out all existing screen sessions and ensure Edison is ready to connect. Screen has a nasty tendency to leave detatched sessions behind which result in annoying and mysterious errors about "Can't find a PTY" or "Resource is busy." Just run bloop clean and you can kill all these detached sessions. You can manually specify attached or detached sessions only by adding the -a or -d options.*
 
 `$ bloop scan [-c (copy results to clipboard)]`
 
 *Scans locally available Bonjour services for the Intel XDK Daemon associated with an Intel Edison and reports on what it finds. If an Edison is found, you can ssh into the
 Edison's name (edison_name.local) using the ssh command. Adding the -c option will automatically add this command to your clipboard.*
+
+`$ bloop sniff [-c (copy results to clipboard)]`
+
+*Sniff simply lists any Intel Edison connected to your computer and outputs a connection
+string you can use to access it. Add -c to copy the results to your clipboard.*
+
+*ex.: screen /dev/cu.usbserial-A402IDV3 115200 -L*
+
+`$ bloop screens`
+
+*List any existing screen sessions, attached or detatched.*
+
+*ex.: Attached Screens: 	657.ttys002.Rex-St-John--Intel	(Attached)*
 
 `$ bloop push [-c (copy results to clipboard)]`
 
