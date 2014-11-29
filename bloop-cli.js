@@ -249,14 +249,14 @@ EdisonCLI.prototype = {
 	/**
 	* Execute an scp command string.
 	*/
-	scp: function(deviceid, user, dir, next){
+	scp: function(deviceid, user, dr, next){
 		var me = this;
   		var usr = (user === undefined || user === null || user === true)?"root":user;
-  		var dr = (dir === undefined || dir === null || dir === true)?":~/node_app_slot/":dir;
-		var modifiedInput = usr+"@"+deviceid;
-		console.log("scp -r . " + modifiedInput+dr);
+  		var targetloc = (dr === undefined || dr === null || dr === true)?"\~\/node_app_slot\/":dr;
+		var modifiedInput = usr+"@"+deviceid+":"+targetloc;
+		console.log("running: scp -r . " + modifiedInput);
 		var spawn = require('child_process').spawn,
-	    ssh = spawn('scp', ["-r .", modifiedInput, dr],{stdio: 'inherit'});
+	    scp = spawn('scp', ["-r", ".", modifiedInput],{stdio: 'inherit'});
 	},
 
 	/**

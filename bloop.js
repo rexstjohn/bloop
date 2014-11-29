@@ -204,8 +204,7 @@ program
 program
   .command('push')
   .option("-u, --user [option]", "Allow the specification of a user other than root.")
-  .option("-c, --copy", "scp the current directory into the Edison we just found.")
-  .option("-d, --dir", "Specify a directory into which to scp your current directory.")
+  .option("-d, --dr [option]", "Specify a directory into which to scp your current directory.")
   .description('Push the local directory contents to Edison npm_app_slot directory via scp.')
   .action(function(options){
   		var user = (options.user === undefined || options.user === null || options.user === true)?"root":options.user;
@@ -214,21 +213,13 @@ program
 		      console.log(err);
 		      return;
 			}
-
-		  	if(options.copy){
-		  		edisonCLI.copyInput(result,options.user, options.dir, function handleCopy(err, result){
-					if ( err ) {
-					   console.log(err);
-					} else {
-						console.log("Edison found: " + result);
-						console.log("Copied to clipboard. Hit Command + v to paste the command.");
-					}
-		  		});
-		  	}else{
-		  		var modifiedInput = "scp -r . " + user + "@" + result + ":~/node_app_slot/";
-				console.log("Edison found: " + result);
-				console.log("Deploy using this: " + modifiedInput);
-		  	}
+			edisonCLI.scp(result,options.user, options.dr, function handleSCP(err, result){
+				if ( err ) {
+				   console.log(err);
+				} else {
+					// success
+				}
+	  		});
 		});
   });
 
