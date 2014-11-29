@@ -7,17 +7,29 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 ## Commands:
 
-`$ bloop list`
-
-*List all Intel Edison devices currently connected to your PC via USB Serial.*
-
-*ex.: /dev/cu.usbserial-A402IDV3*
-
 `$ bloop c [-f, --force (force clean all existing screen sessions)]`
 
 *Automatically connects you via screen to an attached Edison device. Add the -f, --force option to automatically disconnect any detached or attached screen sessions.*
 
 *ex.: screen /dev/cu.usbserial-A402IDV3 115200 -L*
+
+`$ bloop ssh [-u (specify a user other than root (default))]`
+
+*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command. Add a -u flag to specify a username other than root.*
+
+*ex.: ssh root@youredison.local*
+
+`$ bloop push [-u (specify a user other than root (default)), -d(specify a target directory)]`
+
+*Finds a local Edison and runs an "scp" (secure copy) command to deploy your current directory into Edison's ~/node_app_slot directory (default) using username "root." Add the -u option to specify a username other than "root."" Add -d to specify a target directory on the edison into which to deploy other than node_app_slot.*
+
+*ex.: scp -r . root@youredison.local:/somedir*
+
+`$ bloop list`
+
+*List all Intel Edison devices currently connected to your PC via USB Serial.*
+
+*ex.: /dev/cu.usbserial-A402IDV3*
 
 `$ bloop clean [-a (all attached screen processes), -d (all detached screen processes)]`
 
@@ -26,7 +38,7 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 `$ bloop scan [-c (copy results to clipboard)]`
 
 *Scans locally available Bonjour services for the Intel XDK Daemon associated with an Intel Edison and reports on what it finds. If an Edison is found, you can ssh into the
-Edison's name (edison_name.local) using the ssh command. Adding the -c option will automatically add this command to your clipboard.*
+Edison's name (edison_name.local) using the 'bloop ssh' command. Adding the -c option will automatically add this command to your clipboard.*
 
 `$ bloop sniff [-c (copy results to clipboard)]`
 
@@ -40,18 +52,6 @@ string you can use to access it. Add -c to copy the results to your clipboard.*
 *List any existing screen sessions, attached or detatched.*
 
 *ex.: Attached Screens: 	657.ttys002.Rex-St-John--Intel	(Attached)*
-
-`$ bloop ssh [-u (specify a user other than root (default))]`
-
-*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command. Add a -u flag to specify a username other than root.*
-
-*ex.: ssh root@youredison.local*
-
-`$ bloop push [-u (specify a user other than root (default)), -d(specify a target directory)]`
-
-*Finds a local Edison and runs an "scp" (secure copy) command to deploy your current directory into Edison's ~/node_app_slot directory (default) using username "root." Add the -u option to specify a username other than "root."" Add -d to specify a target directory on the edison into which to deploy other than node_app_slot.*
-
-*ex.: scp -r . root@youredison.local:/somedir
 
 ## Installation:
 
