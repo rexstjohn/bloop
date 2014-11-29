@@ -234,9 +234,10 @@ EdisonCLI.prototype = {
 
 		// Kill the process if it takes too long.
 		var interval = 0;
+		console.log('Scanning... ' + (interval + 1));
 		refreshIntervalId = setInterval(function(){
-		  console.log('Scanning... ' + (interval + 1));
 		  interval = interval + 1;
+		  console.log('Scanning... ' + (interval + 1));
 		  if(interval === 2){
 		  	 clearInterval(refreshIntervalId);
 	    	 next(new Error("Scan timeout, no Edisons were found locally. "));
@@ -250,6 +251,7 @@ EdisonCLI.prototype = {
 	*/
 	parseDNSSDOutput: function(input, next){
 		var commandStr = 'echo \'' + input + '\' | awk \'FNR == 5 {print $7}\'';
+		console.log("Warning: This only selects the first Edison in the list,\nif you are in a public space with many Edisons this may not help you.")
 		child = exec(commandStr,
 		  function (error, stdout, stderr) {     
 		    if (error !== null) {
