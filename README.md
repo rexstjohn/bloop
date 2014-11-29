@@ -41,15 +41,17 @@ string you can use to access it. Add -c to copy the results to your clipboard.*
 
 *ex.: Attached Screens: 	657.ttys002.Rex-St-John--Intel	(Attached)*
 
-`$ bloop ssh`
+`$ bloop ssh [-u (specify a user other than root (default))]`
 
-*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command.*
+*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command. Add a -u flag to specify a username other than root.*
 
 *ex.: ssh root@youredison.local*
 
 `$ bloop push [-u (specify a user other than root (default)), -d(specify a target directory)]`
 
-*Finds a local Edison and generates an scp command to deploy your current node project into Edison's node_app_slot directory (default) using root. This a convenience method to make development faster. Add the -u option to specify a username other than root. Add -d to specify a target directory on the edison into which to deploy.*
+*Finds a local Edison and runs an "scp" (secure copy) command to deploy your current directory into Edison's ~/node_app_slot directory (default) using username "root." Add the -u option to specify a username other than "root."" Add -d to specify a target directory on the edison into which to deploy other than node_app_slot.*
+
+*ex.: scp -r . root@youredison.local:/somedir
 
 ## Installation:
 
