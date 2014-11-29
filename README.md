@@ -26,7 +26,7 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 `$ bloop scan [-c (copy results to clipboard)]`
 
 *Scans locally available Bonjour services for the Intel XDK Daemon associated with an Intel Edison and reports on what it finds. If an Edison is found, you can ssh into the
-Edison's name (edison_name.local) using the ssh command. Adding the -c option will automatically add this command to your clipboard.*
+Edison's name (edison_name.local) using the 'bloop ssh' command. Adding the -c option will automatically add this command to your clipboard.*
 
 `$ bloop sniff [-c (copy results to clipboard)]`
 
