@@ -162,7 +162,7 @@ program
 					if ( err ) {
 					   console.log(err);
 					} else {
-						console.log("Edison found, use ssh to connect to it: " + result);
+						console.log("Edison found, use ssh root@your_edison to connect to it:\nYou can also use \'bloop ssh\' to connect automatically.\n" + result);
 						console.log("Copied to clipboard. Hit Command + v to paste the command.");
 					}
 		  		});
