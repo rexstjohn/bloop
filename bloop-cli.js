@@ -204,10 +204,12 @@ EdisonCLI.prototype = {
 		var me = this;
 		var spawn = require('child_process').spawn,
 	    dnssd = spawn('dns-sd', ['-B', '_xdk-app-daemon._tcp']);
+	    var refreshIntervalId;
 
 	    // Killing of the process.
 		dnssd.on('close', function (code, signal) {
 		  // close.
+		  	clearInterval(refreshIntervalId);
 		});
 
 		// Handle data output.
@@ -218,6 +220,7 @@ EdisonCLI.prototype = {
 			  } else {
 				next(null, result + '.local');
 			  }
+		  	  clearInterval(refreshIntervalId);
 		  	  dnssd.kill('SIGHUP');
 			});
 		});
@@ -226,7 +229,20 @@ EdisonCLI.prototype = {
 		dnssd.stderr.on('data', function (data) {
 	      next(new Error("Something went very wrong."));
 		  dnssd.kill('SIGHUP');
+		  clearInterval(refreshIntervalId);
 		});
+
+		// Kill the process if it takes too long.
+		var interval = 0;
+		refreshIntervalId = setInterval(function(){
+		  console.log('Scanning... ' + (interval + 1));
+		  interval = interval + 1;
+		  if(interval === 2){
+		  	 clearInterval(refreshIntervalId);
+	    	 next(new Error("Scan timeout, no Edisons were found locally. "));
+		 	 dnssd.kill('SIGHUP');
+		  }
+		}, 1000);      
 	},
 
 	/**

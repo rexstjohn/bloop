@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.0.6')
+    .version('0.0.7')
     .usage('[options] <keywords>');
 
 /**
@@ -34,7 +34,7 @@ program
 			      console.log('Cleaned screens!');
 			      edisonCLI.connect(function handleConnect(err, result){
 				  if ( err ) {
-					console.log("Something went wrong. If you got a PTY error, try running bloop clean and then try again.\n Make sure BOTH Micro-USB are connected to your computer from Edison.");
+					console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
 				    console.log(err);
 				  } else {
 				  	// Success.
@@ -46,7 +46,7 @@ program
 			//Initiate a connection to an attached Edison.
 			edisonCLI.connect(function handleConnect(err, result){
 			  if ( err ) {
-				console.log("Something went wrong. If you got a PTY error, try running bloop clean and then try again.\n Make sure BOTH Micro-USB are connected to your computer from Edison.");
+				console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
 			    console.log(err);
 			  } else {
 			  	// Success.
