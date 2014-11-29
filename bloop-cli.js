@@ -12,7 +12,7 @@ EdisonCLI.prototype = {
 	* Automatically executes a connection with an attached Edison via USBSerial.
 	* screen /dev/cu.usbserial-XXXXX 115200 -L
 	*/
-    connect: function(next){
+	connect: function(next){
 		var me = this;
 		this.getUSBSerialDevices(function handleUSB(err, result){
 			if( err ){
