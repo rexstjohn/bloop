@@ -265,9 +265,10 @@ EdisonCLI.prototype = {
 	/**
 	* SSH into a target Edison.
 	*/
-	ssh: function(input, next){
+	ssh: function(input, user, next){
 		var me = this;
-		var modifiedInput = "root@"+input;
+  		var usr = (user === undefined || user === null || user === true)?"root":user;
+		var modifiedInput = usr+"@"+input;
 		      console.log(modifiedInput);
 		var spawn = require('child_process').spawn,
 	    ssh = spawn('ssh', [modifiedInput],{stdio: 'inherit'});

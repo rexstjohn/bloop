@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.0.7')
+    .version('0.0.8')
     .usage('[options] <keywords>');
 
 /**
@@ -162,7 +162,7 @@ program
 					if ( err ) {
 					   console.log(err);
 					} else {
-						console.log("Edison found, use ssh root@your_edison to connect to it:\nYou can also use \'bloop ssh\' to connect automatically.\n" + result);
+						console.log("Edison found, use \'bloop ssh\' (and add your username with -u if you aren't using root) to ssh into to it: " + result);
 						console.log("Copied to clipboard. Hit Command + v to paste the command.");
 					}
 		  		});
@@ -177,8 +177,10 @@ program
 */
 program
   .command('ssh')
+  .option("-u, --user [option]", "Allow the specification of a user other than root.")
   .description('SSH into a local Intel Edison on your network.')
   .action(function(options){
+  		var user = options.user;
 		edisonCLI.scanLocalNetwork(function handleScan(err, result){
 			if ( err ) {
 		      console.log(err);
@@ -186,7 +188,7 @@ program
 			}
 
 		    console.log("Attempting to ssh into: " + result);
-	  		edisonCLI.ssh(result, function handleSSH(err, result){
+	  		edisonCLI.ssh(result,user, function handleSSH(err, result){
 				if ( err ) {
 				   console.log(err);
 				   return;
@@ -201,9 +203,11 @@ program
 */
 program
   .command('push')
+  .option("-u, --user [option]", "Allow the specification of a user other than root.")
   .option("-c, --copy", "scp the current directory into the Edison we just found.")
   .description('Push the local directory contents to Edison npm_app_slot directory via scp.')
   .action(function(options){
+  		var user = (options.user === undefined || options.user === null || options.user === true)?"root":options.user;
 		edisonCLI.scanLocalNetwork(function handleScan(err, result){
 			if ( err ) {
 		      console.log(err);
@@ -211,7 +215,7 @@ program
 			}
 
 		  	if(options.copy){
-		  		var modifiedInput = "scp -r . root@" + result + ":~/node_app_slot/";
+		  		var modifiedInput = "scp -r . " + user + "@" + result + ":~/node_app_slot/";
 		  		edisonCLI.copyInput(modifiedInput, function handleCopy(err, result){
 					if ( err ) {
 					   console.log(err);
@@ -221,7 +225,7 @@ program
 					}
 		  		});
 		  	}else{
-		  		var modifiedInput = "scp -r . root@" + result + ":~/node_app_slot/";
+		  		var modifiedInput = "scp -r . " + user + "@" + result + ":~/node_app_slot/";
 				console.log("Edison found: " + result);
 				console.log("Deploy using this: " + modifiedInput);
 		  	}
