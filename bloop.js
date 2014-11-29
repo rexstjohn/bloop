@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.0.9')
+    .version('0.1.0')
     .usage('[options] <keywords>');
 
 /**
