@@ -51,7 +51,7 @@ string you can use to access it. Add -c to copy the results to your clipboard.*
 
 *Finds a local Edison and runs an "scp" (secure copy) command to deploy your current directory into Edison's ~/node_app_slot directory (default) using username "root." Add the -u option to specify a username other than "root."" Add -d to specify a target directory on the edison into which to deploy other than node_app_slot.*
 
-*ex.: scp -r . root@youredison.local:/somedir
+*ex.: scp -r . root@youredison.local:/somedir*
 
 ## Installation:
 
