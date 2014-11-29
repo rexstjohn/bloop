@@ -67,7 +67,7 @@ EdisonCLI.prototype = {
 		console.log ("Initiating connection to: " + serial_device);
 		console.log ("Note: If you get \'resource is busy\' or \'Couldn't find a PTY\',\nrun \'bloop clean\' to terminate stuck screen sessions and try again.\nMake sure BOTH Micro-USB are connected to your computer from Edison.\nYou can also run \'bloop c -f\' to force the connection.");
 		var spawn = require('child_process').spawn,
-	    screencmd = spawn('screen', [serial_device,'115200','-L'], {stdio: 'inherit'});
+	        screencmd = spawn('screen', [serial_device,'115200','-L'], {stdio: 'inherit'});
 		next(null, "Hope you enjoyed playing with Edison.");
 	},
 
@@ -76,7 +76,7 @@ EdisonCLI.prototype = {
 	*/ 
 	copyInput: function(input, next) { 
 		var command = 'echo \''+ input + '\'' + ' | pbcopy';
-	    child = exec(command,
+	        child = exec(command,
 		  function (error, stdout, stderr) { 
 		    if (error !== null) {
 			  next( new Error("PBCopy has failed!") );
@@ -123,9 +123,10 @@ EdisonCLI.prototype = {
 			} else {
 				me.cleanAttachedScreens(null);
 				console.log("Cleaning attached screens.");
-				next("success");
 			}
 		});
+		// Relatively irrelevent.
+		next("----");
 	},
 
 	/**
@@ -203,10 +204,10 @@ EdisonCLI.prototype = {
 		// ssh rexison.local
 		var me = this;
 		var spawn = require('child_process').spawn,
-	    dnssd = spawn('dns-sd', ['-B', '_xdk-app-daemon._tcp']);
-	    var refreshIntervalId;
+		dnssd = spawn('dns-sd', ['-B', '_xdk-app-daemon._tcp']);
+		var refreshIntervalId;
 
-	    // Killing of the process.
+		// Killing of the process.
 		dnssd.on('close', function (code, signal) {
 		  // close.
 		  	clearInterval(refreshIntervalId);
@@ -214,7 +215,7 @@ EdisonCLI.prototype = {
 
 		// Handle data output.
 		dnssd.stdout.on('data', function (data) {
-		  me.parseDNSSDOutput(data, function handleDevices(err, result){
+		  	me.parseDNSSDOutput(data, function handleDevices(err, result){
 			  if ( err ) {
 			    next(new Error("Something went very wrong."));
 			  } else {
@@ -227,7 +228,7 @@ EdisonCLI.prototype = {
 
 		// Handle stderr.
 		dnssd.stderr.on('data', function (data) {
-	      next(new Error("Something went very wrong."));
+		next(new Error("Something went very wrong."));
 		  dnssd.kill('SIGHUP');
 		  clearInterval(refreshIntervalId);
 		});
@@ -240,7 +241,7 @@ EdisonCLI.prototype = {
 		  console.log('Scanning... ' + (interval + 1));
 		  if(interval === 2){
 		  	 clearInterval(refreshIntervalId);
-	    	 next(new Error("Scan timeout, no Edisons were found locally. "));
+	    	 	 next(new Error("Scan timeout, no Edisons were found locally. "));
 		 	 dnssd.kill('SIGHUP');
 		  }
 		}, 1000);      
@@ -256,7 +257,7 @@ EdisonCLI.prototype = {
 		var modifiedInput = usr+"@"+deviceid+":"+targetloc;
 		console.log("running: scp -r . " + modifiedInput);
 		var spawn = require('child_process').spawn,
-	    scp = spawn('scp', ["-r", ".", modifiedInput],{stdio: 'inherit'});
+		scp = spawn('scp', ["-r", ".", modifiedInput],{stdio: 'inherit'});
 	},
 
 	/**
@@ -284,7 +285,7 @@ EdisonCLI.prototype = {
 		var modifiedInput = usr+"@"+input;
 		      console.log(modifiedInput);
 		var spawn = require('child_process').spawn,
-	    ssh = spawn('ssh', [modifiedInput],{stdio: 'inherit'});
+		ssh = spawn('ssh', [modifiedInput],{stdio: 'inherit'});
 	}
 };
 
