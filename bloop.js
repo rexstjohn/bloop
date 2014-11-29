@@ -29,15 +29,17 @@ program
   		if(options.force){
   			edisonCLI.cleanScreens(function handleClean(err, result){
 			  if ( err ) {
-			      console.log(err);
+			  	console.log(err);
+				process.exit(1);
 			  } else {
 			      console.log('Cleaned screens!');
 			      edisonCLI.connect(function handleConnect(err, result){
 				  if ( err ) {
-					console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
-				    console.log(err);
+				  	console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
+				  	console.log(err);
+				  	process.exit(1);
 				  } else {
-				  	// Success.
+				  	process.exit(0);
 				  }
 				});
 			  }
@@ -47,9 +49,10 @@ program
 			edisonCLI.connect(function handleConnect(err, result){
 			  if ( err ) {
 				console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
-			    console.log(err);
+			  	console.log(err);
+				process.exit(1);
 			  } else {
-			  	// Success.
+				process.exit(0);
 			  }
 			});
   		}
@@ -68,19 +71,23 @@ program
 	.action(function(options){
 		edisonCLI.getConnectionString(function handleConnect(err, result){
 		  if ( err ) {
-		    console.log(err);
+		  	console.log(err);
+			process.exit(1);
 		  } else {
 		  	if(options.copy){
 		  		edisonCLI.copyInput(result, function handleCopy(err, result){
 					if ( err ) {
-					   console.log(err);
+						console.log(err);
+						process.exit(1);
 					} else {
 						console.log(result);
 						console.log("Copied to clipboard. Hit Command + v to paste the command.");
+				  		process.exit(0);
 					}
 		  		});
 		  	}else{
 				console.log("Generated command: " + result);
+				process.exit(0);
 		  	}
 		  }
 		});
@@ -97,9 +104,11 @@ program
   .action(function(options){
   		edisonCLI.getUSBSerialDevices(function handleDevices(err, result){
 		  if ( err ) {
-		    console.log(err);
+		  	console.log(err);
+			process.exit(1);
 		  } else {
 			console.log(result);
+			process.exit(0);
 		  }
 		});
   });
@@ -118,25 +127,31 @@ program
   		if(options.attached){
 			edisonCLI.cleanAttachedScreens(function handleClean(err, result){
 			  if ( err ) {
-			      console.log(err);
+			  	console.log(err);
+			  	process.exit(1);
 			  } else {
-			      console.log('Cleaned attached screens!');
+			  	console.log('Cleaned attached screens!');
+			  	process.exit(0);
 			  }
 			});
   		} else if(options.detached){
   			edisonCLI.cleanDetachedScreens(function handleClean(err, result){
 			  if ( err ) {
-			      console.log(err);
+			        console.log(err);
+			  	process.exit(1);
 			  } else {
-			      console.log('Cleaned detached screens!');
+			  	console.log('Cleaned detached screens!');
+			  	process.exit(0);
 			  }
 			});
   		} else {
   			edisonCLI.cleanScreens(function handleClean(err, result){
 			  if ( err ) {
-			      console.log(err);
+			  	console.log(err);
+			  	process.exit(1);
 			  } else {
-			      console.log('Cleaned screens!');
+			  	console.log('Cleaned screens!');
+			  	process.exit(0);
 			  }
 			});
   		}
@@ -152,22 +167,25 @@ program
   .action(function(options){
 		edisonCLI.scanLocalNetwork(function handleScan(err, result){
 			if ( err ) {
-		      console.log(err);
-		      return;
+		      		console.log(err);
+			  	process.exit(1);
 			}
 
 		  	if(options.copy){
 		  		var modifiedInput = "ssh root@" + result;
 		  		edisonCLI.copyInput(modifiedInput, function handleCopy(err, result){
 					if ( err ) {
-					   console.log(err);
+						console.log(err);
+			  			process.exit(1);
 					} else {
 						console.log("Edison found, use \'bloop ssh\' (and add your username with -u if you aren't using root) to ssh into to it: " + result);
 						console.log("Copied to clipboard. Hit Command + v to paste the command.");
+			  			process.exit(0);
 					}
 		  		});
 		  	}else{
 				console.log("Edison found, use ssh to connect to it: " + result);
+				process.exit(0);
 		  	}
 		});
   });
@@ -183,17 +201,18 @@ program
   		var user = options.user;
 		edisonCLI.scanLocalNetwork(function handleScan(err, result){
 			if ( err ) {
-		      console.log(err);
-		      return;
+		        	console.log(err);
+		        	process.exit(1);
 			}
 
 		    console.log("Attempting to ssh into: " + result);
 	  		edisonCLI.ssh(result,user, function handleSSH(err, result){
 				if ( err ) {
 				   console.log(err);
-				   return;
-				} 
-				// success.
+		        	   process.exit(1);
+				} else {
+		        	   process.exit(0);
+				}
 	  		});
 		});
   });
@@ -210,14 +229,15 @@ program
   		var user = (options.user === undefined || options.user === null || options.user === true)?"root":options.user;
 		edisonCLI.scanLocalNetwork(function handleScan(err, result){
 			if ( err ) {
-		      console.log(err);
-		      return;
+		        	console.log(err);
+		        	process.exit(1);
 			}
 			edisonCLI.scp(result,options.user, options.dr, function handleSCP(err, result){
 				if ( err ) {
-				   console.log(err);
+					console.log(err);
+		        		process.exit(1);
 				} else {
-					// success
+		        		process.exit(0);
 				}
 	  		});
 		});
@@ -233,17 +253,21 @@ program
 
 		edisonCLI.getAttachedScreens(function handleClean(err, result){
 		  if ( err ) {
-		      console.log(err);
+		  	console.log(err);
+		        process.exit(1);
 		  } else {
-		      console.log('Attached Screens: '  + result);
+		  	console.log('Attached Screens: '  + result);
+		        process.exit(0);
 		  }
 		});
 
 		edisonCLI.getDetachedScreens(function handleClean(err, result){
 		  if ( err ) {
-		      console.log(err);
+		  	console.log(err);
+		        process.exit(1);
 		  } else {
-		      console.log('Detached Screens: '  + result);
+		  	console.log('Detached Screens: '  + result);
+		        process.exit(0);
 		  }
 		});
   });
