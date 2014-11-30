@@ -196,7 +196,7 @@ EdisonCLI.prototype = {
 	/**
 	* Uses dns-sd to summon any local xdk-app-daemon which we think might be Intel Edison.
 	*/
-	scanLocalNetwork: function(next){
+	scanLocalNetwork: function(is_raw, next){
 		// dns-sd -B _services._dns-sd._udp
 		// dns-sd -B _xdk-app-daemon._tcp
 		// dns-sd -L "rexison" _xdk-app-daemon._tcp
@@ -215,15 +215,21 @@ EdisonCLI.prototype = {
 
 		// Handle data output.
 		dnssd.stdout.on('data', function (data) {
-		  	me.parseDNSSDOutput(data, function handleDevices(err, result){
-			  if ( err ) {
-			    next(new Error("Something went very wrong."));
-			  } else {
-				next(null, result + '.local');
-			  }
-		  	  clearInterval(refreshIntervalId);
-		  	  dnssd.kill('SIGHUP');
-			});
+			if(is_raw === true){
+				next(null, data);
+			  	clearInterval(refreshIntervalId);
+				dnssd.kill('SIGHUP');
+			} else {
+			  	me.parseDNSSDOutput(data, function handleDevices(err, result){
+				  if ( err ) {
+				    next(new Error("Something went very wrong."));
+				  } else {
+					next(null, result + '.local');
+				  }
+			  	  clearInterval(refreshIntervalId);
+			  	  dnssd.kill('SIGHUP');
+				});
+			}
 		});
 
 		// Handle stderr.

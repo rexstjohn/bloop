@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.1.1')
+    .version('0.1.2')
     .usage('[options] <keywords>');
 
 /**
@@ -142,30 +142,17 @@ program
 program
   .command('scan')
   .description('Scan the local network for Intel Edisons.')
-  .option("-c, --copy", "SSH into the Edison we found.")
+  .option("-r, --raw", "Output raw scan results of your local Bonjour network, useful when developing with multiple local Edisons.")
   .action(function(options){
-		edisonCLI.scanLocalNetwork(function handleScan(err, result){
+  		var showRaw = (options.raw === true)?true:false;
+		edisonCLI.scanLocalNetwork(showRaw, function handleScan(err, result){
 			if ( err ) {
-		      		console.log(err);
+		      	console.log(err);
 			  	process.exit(1);
 			}
 
-		  	if(options.copy){
-		  		var modifiedInput = "ssh root@" + result;
-		  		edisonCLI.copyInput(modifiedInput, function handleCopy(err, result){
-					if ( err ) {
-						console.log(err);
-			  			process.exit(1);
-					} else {
-						console.log("Edison found, use \'bloop ssh\' (and add your username with -u if you aren't using root) to ssh into to it: " + result);
-						console.log("Copied to clipboard. Hit Command + v to paste the command.");
-			  			process.exit(0);
-					}
-		  		});
-		  	}else{
-				console.log("Edison found, use ssh to connect to it: " + result);
-				process.exit(0);
-		  	}
+			console.log("One or more Intel Edisons found locally, use ssh to connect to one:\n" + result);
+			process.exit(0);
 		});
   });
 
