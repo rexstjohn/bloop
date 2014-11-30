@@ -213,23 +213,23 @@ program
 			edisonCLI.scp(pluslocal,options.user, options.dr, function handleSCP(err, result){
 				if ( err ) {
 					console.log(err);
-		        		process.exit(1);
+		        	process.exit(1);
 				} else {
-		        		process.exit(0);
+		        	process.exit(0);
 				}
 	  		});
   		} else {
 			edisonCLI.scanLocalNetwork(false, function handleScan(err, result){
 				if ( err ) {
-			        	console.log(err);
-			        	process.exit(1);
+			        console.log(err);
+			       	process.exit(1);
 				}
 				edisonCLI.scp(result,options.user, options.dr, function handleSCP(err, result){
 					if ( err ) {
 						console.log(err);
-			        		process.exit(1);
+			        	process.exit(1);
 					} else {
-			        		process.exit(0);
+			        	process.exit(0);
 					}
 		  		});
 			});
