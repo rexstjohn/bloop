@@ -23,39 +23,18 @@ program
 */ 
 program
   .command('c')
-  .option("-f, --force", "Automatically cleans any screen session that may exist.")
   .description('Instantly initiate a terminal session with a connected Edison over Micro-USB.')
-  .action(function(options){
-  		if(options.force){
-  			edisonCLI.cleanScreens(function handleClean(err, result){
-			  if ( err ) {
+  .action(function(){
+		//Initiate a connection to an attached Edison.
+		edisonCLI.connect(function handleConnect(err, result){
+		  if ( err ) {
+			  	console.log("Something went wrong. If you got a PTY error, try running \'bloop clean.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
 			  	console.log(err);
-				process.exit(1);
+			  	process.exit(1);
 			  } else {
-			      console.log('Cleaned screens!');
-			      edisonCLI.connect(function handleConnect(err, result){
-				  if ( err ) {
-				  	console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
-				  	console.log(err);
-				  	process.exit(1);
-				  } else {
-				  	process.exit(0);
-				  }
-				});
-			  }
-			});
-  		} else {
-			//Initiate a connection to an attached Edison.
-			edisonCLI.connect(function handleConnect(err, result){
-			  if ( err ) {
-				console.log("Something went wrong. If you got a PTY error, try running \'bloop c -f.\'\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
-			  	console.log(err);
-				process.exit(1);
-			  } else {
-				process.exit(0);
-			  }
-			});
-  		}
+			  	// Warning: Screen doesn't work if process.exit is called hered.
+		  }
+		});
 	});
 
 /**

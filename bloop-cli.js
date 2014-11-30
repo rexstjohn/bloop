@@ -65,7 +65,7 @@ EdisonCLI.prototype = {
 	executeScreenOnSerialDevice: function(serial_device, next){
 		var me = this;
 		console.log ("Initiating connection to: " + serial_device);
-		console.log ("Note: If you get \'resource is busy\' or \'Couldn't find a PTY\',\nrun \'bloop clean\' to terminate stuck screen sessions and try again.\nMake sure BOTH Micro-USB are connected to your computer from Edison.\nYou can also run \'bloop c -f\' to force the connection.");
+		console.log ("Note: If you get \'resource is busy\' or \'Couldn't find a PTY\',\nrun \'bloop clean\' to terminate stuck screen sessions and try again.\nMake sure BOTH Micro-USB are connected to your computer from Edison.");
 		var spawn = require('child_process').spawn,
 	        screencmd = spawn('screen', [serial_device,'115200','-L'], {stdio: 'inherit'});
 		next(null, "Hope you enjoyed playing with Edison.");
@@ -123,10 +123,10 @@ EdisonCLI.prototype = {
 			} else {
 				me.cleanAttachedScreens(null);
 				console.log("Cleaning attached screens.");
+				// Relatively irrelevent.
+				next("done");
 			}
 		});
-		// Relatively irrelevent.
-		next("----");
 	},
 
 	/**

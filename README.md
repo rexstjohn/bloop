@@ -7,9 +7,9 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 ## Commands:
 
-`$ bloop c [-f, --force (force clean all existing screen sessions)]`
+`$ bloop c`
 
-*Automatically connects you via screen to an attached Edison device. Add the -f, --force option to automatically disconnect any detached or attached screen sessions.*
+*Automatically connects you via "screen" to an attached Edison device.*
 
 *ex.: screen /dev/cu.usbserial-A402IDV3 115200 -L*
 
