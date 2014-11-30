@@ -15,7 +15,7 @@ Bloop is a CLI tool for help developers work on Intel Edison. Bleep is the partn
 
 `$ bloop ssh [-u (specify a user other than root (default)), -e (specify an Edison into which to ssh, otherwise bloop picks the first one it finds)]`
 
-*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command. Add a -u flag to specify a username other than root.*
+*SSH's into your Edison via the local network by scanning for it using Bonjour and then initiating a connection command. Add a -u flag to specify a username other than root. Add -e to specify a specific Edison to ssh into, default behavior bloop picks the first one it finds. Use bloop scan -r to discover all Edisons on your local network.*
 
 *ex.: ssh root@youredison.local*
 
