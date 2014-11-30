@@ -15,7 +15,7 @@ var program = require('commander'),
 * Define version, help info here
 */
 program
-    .version('0.1.0')
+    .version('0.1.1')
     .usage('[options] <keywords>');
 
 /**
@@ -224,15 +224,14 @@ program
   .command('push')
   .option("-u, --user [option]", "Allow the specification of a user other than root.")
   .option("-d, --dr [option]", "Specify a directory into which to scp your current directory.")
+  .option("-e, --edison [option]", "Specify an Edison name into which to scp (default is the first Edison found during scan).")
   .description('Push the local directory contents to Edison npm_app_slot directory via scp.')
   .action(function(options){
   		var user = (options.user === undefined || options.user === null || options.user === true)?"root":options.user;
-		edisonCLI.scanLocalNetwork(function handleScan(err, result){
-			if ( err ) {
-		        	console.log(err);
-		        	process.exit(1);
-			}
-			edisonCLI.scp(result,options.user, options.dr, function handleSCP(err, result){
+		
+  		if(options.edison){
+  			var pluslocal = (options.edison.indexOf(".local" > -1))?options.edison + ".local":pluslocal;
+			edisonCLI.scp(pluslocal,options.user, options.dr, function handleSCP(err, result){
 				if ( err ) {
 					console.log(err);
 		        		process.exit(1);
@@ -240,7 +239,22 @@ program
 		        		process.exit(0);
 				}
 	  		});
-		});
+  		} else {
+			edisonCLI.scanLocalNetwork(function handleScan(err, result){
+				if ( err ) {
+			        	console.log(err);
+			        	process.exit(1);
+				}
+				edisonCLI.scp(result,options.user, options.dr, function handleSCP(err, result){
+					if ( err ) {
+						console.log(err);
+			        		process.exit(1);
+					} else {
+			        		process.exit(0);
+					}
+		  		});
+			});
+  		}
   });
 
 /**
