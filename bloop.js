@@ -177,7 +177,7 @@ program
 				}
 		  	});
 		} else {
-			edisonCLI.scanLocalNetwork(function handleScan(err, result){
+			edisonCLI.scanLocalNetwork(false, function handleScan(err, result){
 				if ( err ) {
 		        	console.log(err);
 		        	process.exit(1);
@@ -219,7 +219,7 @@ program
 				}
 	  		});
   		} else {
-			edisonCLI.scanLocalNetwork(function handleScan(err, result){
+			edisonCLI.scanLocalNetwork(false, function handleScan(err, result){
 				if ( err ) {
 			        	console.log(err);
 			        	process.exit(1);
