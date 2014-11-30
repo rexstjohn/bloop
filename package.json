@@ -1,6 +1,6 @@
 {
     "name": "bloop",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "description": "A set of command-line tools for working with Intel Edison on the PC side",
     "author": "Rex St John",
     "engines": {
