@@ -195,26 +195,39 @@ program
 */
 program
   .command('ssh')
+  .option("-e, --edison [option]", "Specify an Edison name into which to ssh (default is the first Edison found during scan).")
   .option("-u, --user [option]", "Allow the specification of a user other than root.")
   .description('SSH into a local Intel Edison on your network.')
   .action(function(options){
   		var user = options.user;
-		edisonCLI.scanLocalNetwork(function handleScan(err, result){
-			if ( err ) {
+  		if(options.edison){
+  			var pluslocal = (options.edison.indexOf(".local" > -1))?options.edison + ".local":pluslocal;
+  			edisonCLI.ssh(pluslocal,user, function handleSSH(err, result){
+				if ( err ) {
+					console.log(err);
+		        	process.exit(1);
+				} else {
+		        	process.exit(0);
+				}
+		  	});
+		} else {
+			edisonCLI.scanLocalNetwork(function handleScan(err, result){
+				if ( err ) {
 		        	console.log(err);
 		        	process.exit(1);
-			}
-
-		    console.log("Attempting to ssh into: " + result);
-	  		edisonCLI.ssh(result,user, function handleSSH(err, result){
-				if ( err ) {
-				   console.log(err);
-		        	   process.exit(1);
-				} else {
-		        	   process.exit(0);
 				}
-	  		});
-		});
+
+			    console.log("Attempting to ssh into: " + result);
+		  		edisonCLI.ssh(result,user, function handleSSH(err, result){
+					if ( err ) {
+						console.log(err);
+			        	process.exit(1);
+					} else {
+			        	process.exit(0);
+					}
+		  		});
+			});
+		}
   });
 
 /**
