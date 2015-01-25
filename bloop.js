@@ -204,7 +204,7 @@ program
   .option("-u, --user [option]", "Allow the specification of a user other than root.")
   .option("-d, --dr [option]", "Specify a directory into which to scp your current directory.")
   .option("-e, --edison [option]", "Specify an Edison name into which to scp (default is the first Edison found during scan).")
-  .description('Push the local directory contents to Edison npm_app_slot directory via scp.')
+  .description("Push the local directory contents to the Edison's `node_app_slot` directory via scp.")
   .action(function(options) {
     var user = (options.user === undefined || options.user === null || options.user === true) ? "root" : options.user;
 
